@@ -122,7 +122,7 @@ struct AdminSheetView: View {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(product.name).font(.headline)
-                                        Text(product.price).font(.subheadline).bold()
+                                        Text("₹\(product.price, specifier: "%.2f")")
                                     }
                                     Spacer()
                                     Button(action: { removeProduct(product) }) {
@@ -166,7 +166,7 @@ struct AdminSheetView: View {
         let confirmedOrder = Order(
             id: UUID(),
             dateString: Date().formatted(date: .abbreviated, time: .omitted),
-            totalAmount: order.totalAmount,
+            totalAmount: Double(order.totalAmount),
             itemNames: productNamesArray
         )
         currentUserOrderHistory.append(confirmedOrder)

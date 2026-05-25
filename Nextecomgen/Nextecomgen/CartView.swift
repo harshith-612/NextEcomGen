@@ -5,13 +5,15 @@ struct CartView: View {
     @Binding var shoppingCart: [Product]
     @Binding var isShowingPaymentScreen: Bool
     @Binding var orderHistory: [AdminTransaction]
-    @Binding var fullNameInput : String
+    @Binding var fullNameInput: String
     var usernameInput: String
+    
     @State private var navigateToPayment: Bool = false
     @State private var isPaymentVerified: Bool = false
+    
     var grandCartTotalInt: Float {
         shoppingCart.reduce(0) { total, product in
-            let numericString = product.price
+            let numericString = String(product.price)
                 .replacingOccurrences(of: "₹", with: "")
                 .replacingOccurrences(of: ",", with: "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -22,9 +24,11 @@ struct CartView: View {
             return total
         }
     }
+    
     var grandCartTotalDisplay: String {
         return String(format: "₹ %.2f", grandCartTotalInt)
     }
+    
     var uniqueGroupedCartItems: [Product] {
         var uniqueList: [Product] = []
         for item in shoppingCart {
@@ -34,113 +38,126 @@ struct CartView: View {
         }
         return uniqueList
     }
+    
     var body: some View {
-        VStack {
-            HStack {
-                Text("My Shopping Cart").font(.headline).foregroundColor(.primary)
-                Spacer()
-            }
-            .padding([.horizontal, .top])
-            if shoppingCart.isEmpty {
-                Spacer()
-                VStack(spacing: 12) {
-                    Image(systemName: "bag.badge.questionmark").font(.system(size: 50)).foregroundColor(.gray.opacity(0.6))
-                    Text("Your cart is empty").font(.headline).foregroundColor(.secondary)
+        NavigationStack {
+            VStack {
+                HStack {
+                    Text("My Shopping Cart").font(.headline).foregroundColor(.primary)
+                    Spacer()
                 }
-                Spacer()
-            } else {
-                List {
-                    ForEach(uniqueGroupedCartItems) { item in
-                        let count = shoppingCart.filter { $0.name == item.name }.count
-                        HStack(spacing: 16) {
-                            AsyncImage(url: URL(string: item.imageName)) { phase in
-                                switch phase {
-                                case .empty:
-                                    ProgressView()
-                                        .frame(width: 50, height: 50)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                case .failure:
-                                    Image(systemName: "photo")
-                                        .font(.title2)
-                                        .foregroundColor(.gray)
-                                        .frame(width: 50, height: 50)
-                                @unknown default:
-                                    EmptyView()
-                                }
-                            }
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(8)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(item.name).font(.headline)
-                                Text(item.price).font(.subheadline).foregroundColor(.gray)
-                            }
-                            Spacer()
-                            HStack(spacing: 12) {
-                                Button(action: {
-                                    if let firstIndex = shoppingCart.firstIndex(where: { $0.name == item.name }) {
-                                        withAnimation { _ = shoppingCart.remove(at: firstIndex) }
+                .padding([.horizontal, .top])
+                
+                if shoppingCart.isEmpty {
+                    Spacer()
+                    VStack(spacing: 12) {
+                        Image(systemName: "bag.badge.questionmark")
+                            .font(.system(size: 50))
+                            .foregroundColor(.gray.opacity(0.6))
+                        Text("Your cart is empty")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(uniqueGroupedCartItems) { item in
+                            let count = shoppingCart.filter { $0.name == item.name }.count
+                            HStack(spacing: 16) {
+                                AsyncImage(url: URL(string: item.imageName)) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 50, height: 50)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                    case .failure:
+                                        Image(systemName: "photo")
+                                            .font(.title2)
+                                            .foregroundColor(.gray)
+                                            .frame(width: 50, height: 50)
+                                    @unknown default:
+                                        EmptyView()
                                     }
-                                }) {
-                                    Image(systemName: "minus.square.fill").font(.title3).foregroundColor(.red)
-                                }.buttonStyle(.plain)
+                                }
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(8)
                                 
-                                Text("\(count)").font(.headline).frame(minWidth: 20)
-                                
-                                Button(action: { withAnimation { shoppingCart.append(item) } }) {
-                                    Image(systemName: "plus.square.fill").font(.title3).foregroundColor(.green)
-                                }.buttonStyle(.plain)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(item.name).font(.headline)
+                                    Text("₹\(item.price, specifier: "%.2f")")
+                                }
+                                Spacer()
+                                HStack(spacing: 12) {
+                                    Button(action: {
+                                        if let firstIndex = shoppingCart.firstIndex(where: { $0.name == item.name }) {
+                                            withAnimation { _ = shoppingCart.remove(at: firstIndex) }
+                                        }
+                                    }) {
+                                        Image(systemName: "minus.square.fill").font(.title3).foregroundColor(.red)
+                                    }.buttonStyle(.plain)
+                                    
+                                    Text("\(count)").font(.headline).frame(minWidth: 20)
+                                    
+                                    Button(action: { withAnimation { shoppingCart.append(item) } }) {
+                                        Image(systemName: "plus.square.fill").font(.title3).foregroundColor(.green)
+                                    }.buttonStyle(.plain)
+                                }
                             }
                         }
                     }
-                }
-                .listStyle(.plain)
-                
-                VStack(spacing: 12) {
-                    HStack {
-                        Text("Total Payable:")
-                            .font(.headline)
-                        Spacer()
-                        Text(grandCartTotalDisplay)
-                            .font(.title2)
-                            .bold()
-                            .foregroundColor(.green)
-                    }
-                    .padding(.horizontal, 24)
+                    .listStyle(.plain)
                     
-                    Button(action: {
-                        navigateToPayment = true
-                    }) {
-                        Text("Proceed to Pay")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.horizontal, 24)
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Total Payable:")
+                                .font(.headline)
+                            Spacer()
+                            Text(grandCartTotalDisplay)
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.green)
+                        }
+                        .padding(.horizontal, 24)
+                        
+                        Button(action: {
+                            navigateToPayment = true
+                        }) {
+                            Text("Proceed to Pay")
+                                .bold()
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    LinearGradient(
+                                        colors: [.freshMint, .deepEmerald],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .padding(.horizontal, 24)
+                        }
+                        .navigationDestination(isPresented: $navigateToPayment) {
+                            PaymentGatewayView(
+                                grandTotalPriceInt: Double(grandCartTotalInt),
+                                merchantPhoneNumber: "8019324766",
+                                isShowingPaymentScreen: $isShowingPaymentScreen,
+                                isPaymentVerified: $isPaymentVerified,
+                                shoppingCart: $shoppingCart,
+                                orderHistory: $orderHistory,
+                                fullNameInput: $fullNameInput,
+                                currentUsername: usernameInput,
+                                onFinalizeOrder: {
+                                    isPaymentVerified = true
+                                }
+                            )
+                        }
                     }
-                    .navigationDestination(isPresented: $navigateToPayment) {
-                        PaymentGatewayView(
-                            grandTotalPriceInt: grandCartTotalInt,
-                            merchantPhoneNumber: "8019324766",
-                            isShowingPaymentScreen: $isShowingPaymentScreen,
-                            isPaymentVerified: $isPaymentVerified,
-                            shoppingCart: $shoppingCart,
-                            orderHistory: $orderHistory,
-                            fullNameInput: $fullNameInput,
-                            currentUsername: usernameInput,
-                            onFinalizeOrder: {
-                                isPaymentVerified = true
-                            }
-                        )
-                    }
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
             }
         }
     }

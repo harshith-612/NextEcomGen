@@ -2,7 +2,7 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct PaymentGatewayView: View {
-    let grandTotalPriceInt: Float
+    let grandTotalPriceInt: Double
     let merchantPhoneNumber: String
     @Binding var isShowingPaymentScreen: Bool
     @Binding var isPaymentVerified: Bool
@@ -62,7 +62,13 @@ struct PaymentGatewayView: View {
                     Button(action: {
                         showingUTRPrompt = true
                     }) {
-                        Text("I Have Paid Natively").font(.headline).bold().foregroundColor(.white).frame(maxWidth: .infinity).padding(.vertical, 16).background(Color.green).cornerRadius(14)
+                        Text("I Have Paid Natively").font(.headline).bold().foregroundColor(.white).frame(maxWidth: .infinity).padding(.vertical, 16).background(
+                            LinearGradient(
+                                colors: [.freshMint, .deepEmerald],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                        .cornerRadius(14)
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 20)
@@ -77,6 +83,7 @@ struct PaymentGatewayView: View {
                 .alert("Verify Transaction", isPresented: $showingUTRPrompt) {
                     TextField("Enter 12-digit UTR No.", text: $transactionID)
                         .keyboardType(.numberPad)
+                        .foregroundColor(.black)
                     
                     Button("Submit Reference") {
                         let cleanInput = transactionID.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -85,7 +92,7 @@ struct PaymentGatewayView: View {
                             let incomingTx = AdminTransaction(
                                 id: UUID(),
                                 orderIDString: "ORD-\(Int.random(in: 100000...999999))",
-                                totalAmount: grandTotalPriceInt,
+                                totalAmount: Float(grandTotalPriceInt),
                                 transactionID: cleanInput,
                                 date: Date(),
                                 associatedProducts: shoppingCart,
