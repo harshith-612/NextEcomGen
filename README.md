@@ -60,8 +60,7 @@ NextEcomGen/
 ├── Views/           # SwiftUI views
 ├── ViewModels/      # View logic and state management
 ├── Services/        # API and business logic
-├── Resources/       # Assets and localization
-└── Utils/           # Helper functions and utilities
+└──Resources/       # Assets and localization
 ```
 
 ## 📚 Usage
