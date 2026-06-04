@@ -239,10 +239,25 @@ struct ContentView: View {
                                     editingAddressID: $editingAddressID,
                                     editingText: $editingText,
                                     onLogOut: {
+                                        LocalDatabaseManager.shared.clearCurrentUserSession()
                                         UserDefaults.standard.set(false, forKey: "isLoggedIn")
+                                        fullNameInput = ""
+                                        emailInput = ""
+                                        passwordInput = ""
+                                        confirmPasswordInput = ""
+                                        errorMessage = ""
+                                        shoppingCart = []
+                                        currentUserOrderHistory = []
+                                        currentUserAddresses = []
+                                        loggedInFullName = ""
+                                        loggedInEmail = ""
                                         selectedTab = .home
+                                        isUserLoggedIn = false
                                     }
                                 )
+
+
+
 
                                 .tag(AppTab.profile)
                             }

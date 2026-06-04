@@ -18,6 +18,7 @@
 		D64212662FBC605C007EA3A9 /* AdminSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E39D2FBC5C8300BE4984 /* AdminSheetView.swift */; };
 		D64212672FBC605F007EA3A9 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3A12FBC5CE200BE4984 /* CustomTabBar.swift */; };
 		D64212682FBC6061007EA3A9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3992FBC5C2500BE4984 /* ProfileView.swift */; };
+		D645C7112FD15ECA003BF498 /* boy_hide.json in Resources */ = {isa = PBXBuildFile; fileRef = D652C9082FD14278008D50B8 /* boy_hide.json */; };
 		D671E3642FBC5AE300BE4984 /* NextecomgenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3632FBC5AE300BE4984 /* NextecomgenApp.swift */; };
 		D671E3682FBC5AE600BE4984 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D671E3672FBC5AE600BE4984 /* Assets.xcassets */; };
 		D671E36B2FBC5AE600BE4984 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D671E36A2FBC5AE600BE4984 /* Preview Assets.xcassets */; };
@@ -355,6 +356,7 @@
 			files = (
 				D671E36B2FBC5AE600BE4984 /* Preview Assets.xcassets in Resources */,
 				D671E3682FBC5AE600BE4984 /* Assets.xcassets in Resources */,
+				D645C7112FD15ECA003BF498 /* boy_hide.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,7 +3,6 @@ import CoreData
 final class LocalDatabaseManager {
     static let shared = LocalDatabaseManager()
     private init() {}
-    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Data")
         container.loadPersistentStores { _, error in
@@ -13,11 +12,9 @@ final class LocalDatabaseManager {
         }
         return container
     }()
-    
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
     func saveContext() {
         guard context.hasChanges else { return }
         do {
@@ -27,21 +24,24 @@ final class LocalDatabaseManager {
             print("❌ [CoreData Error] Failed to write changes to storage context: \(error)")
         }
     }
-    
+    func clearCurrentUserSession() {
+        UserDefaults.standard.removeObject(forKey: userKey)
+        UserDefaults.standard.removeObject(forKey: roleKey)
+        UserDefaults.standard.removeObject(forKey: "isLoggedIn")
+        UserDefaults.standard.synchronize()
+        print("User database session cleared and synced successfully.")
+    }
     private func normalize(_ username: String) -> String {
         username.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
-    
     private let userKey = "current_user"
     private let roleKey = "current_role"
-    
     func setCurrentUser(_ username: String, role: UserRole) {
         let k = normalize(username)
         UserDefaults.standard.set(k, forKey: userKey)
         UserDefaults.standard.set(role.rawValue, forKey: roleKey)
     }
     private var cachedProducts: [Product] = []
-    
     func saveProducts(_ products: [Product]) {
         self.cachedProducts = products
     }
@@ -88,8 +88,7 @@ final class LocalDatabaseManager {
     func logout() {
         UserDefaults.standard.removeObject(forKey: userKey)
         UserDefaults.standard.removeObject(forKey: roleKey)
-    }
-    
+    }    
     func ensureUserExists(username: String) -> UserEntity {
         let cleanKey = normalize(username)
         if let existing = getUser(username: cleanKey) {
@@ -104,7 +103,6 @@ final class LocalDatabaseManager {
         saveContext()
         return user
     }
-    
     func getUser(username: String) -> UserEntity? {
         let cleanKey = normalize(username)
         let req: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
@@ -125,7 +123,6 @@ final class LocalDatabaseManager {
             print("❌Failed to encode order history model structures.")
         }
     }
-
     func getOrderHistory(for username: String) -> [OrderHistoryItem] {
         let k = normalize(username)
         let key = "orders_history_\(k)"
@@ -140,8 +137,6 @@ final class LocalDatabaseManager {
         
         return []
     }
-
-
     func saveNewUser(username: String, profileData: [String: String], role: UserRole) {
         let k = normalize(username)
         let user = ensureUserExists(username: k)
@@ -153,7 +148,6 @@ final class LocalDatabaseManager {
         
         saveContext()
     }
-    
     func getUserDetails(username: String) -> [String: String] {
         let k = normalize(username)
         let user = ensureUserExists(username: k)
