@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "E0C151ED-73F4-4189-899D-C5CB04E472EE"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CEA3B0C8-5384-4A92-A6C6-53B1D91A3A15"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Nextecomgen/ThemeExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3"
+            endingLineNumber = "3"
+            landmarkName = "Color"
+            landmarkType = "21">
+            <Locations>
+               <Location
+                  uuid = "CEA3B0C8-5384-4A92-A6C6-53B1D91A3A15 - 43cd9c593edb3e12"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "one-time initialization function for deepEmerald"
+                  moduleName = "Nextecomgen"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harshith/Desktop/Nextecomgen/Nextecomgen/ThemeExtensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4"
+                  endingLineNumber = "4"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  uuid = "CEA3B0C8-5384-4A92-A6C6-53B1D91A3A15 - 50f39cfaae34d58b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftUI.Color.deepEmerald.unsafeMutableAddressor : SwiftUI.Color"
+                  moduleName = "Nextecomgen"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harshith/Desktop/Nextecomgen/Nextecomgen/ThemeExtensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "4"
+                  endingLineNumber = "4"
+                  offsetFromSymbolStart = "4">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

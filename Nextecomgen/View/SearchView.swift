@@ -6,13 +6,14 @@ struct SearchView: View {
     @Binding var storeProducts: [Product]
     @Binding var shoppingCart: [Product]
     @State private var selectedCategory: String = "All"
+    
     private var uniqueCategories: [String] {
         let rawCategories = storeProducts.map { $0.category.capitalized }
         let distinctSet = Set(rawCategories)
         return ["All"] + distinctSet.sorted()
     }
-    var filteredProducts: [Binding<Product>] {
-        $storeProducts.filter { $product in
+    var filteredProducts: [Product] {
+        storeProducts.filter { product in
             let matchesSearchText = searchText.isEmpty || product.name.localizedCaseInsensitiveContains(searchText)
             let matchesCategory = (selectedCategory == "All") || (product.category.caseInsensitiveCompare(selectedCategory) == .orderedSame)
             
@@ -23,19 +24,21 @@ struct SearchView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 10) {
-                Image(systemName: "magnifyingglass").foregroundColor(.gray)
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.gray)
                 TextField("Search products...", text: $searchText)
                     .disableAutocorrection(true)
                 if !searchText.isEmpty {
                     Button(action: { searchText = "" }) {
-                        Image(systemName: "xmark.circle.fill").foregroundColor(.gray)
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
                     }
                 }
             }
             .padding()
-            
             .cornerRadius(12)
             .padding([.horizontal, .top])
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(uniqueCategories, id: \.self) { category in
@@ -56,16 +59,20 @@ struct SearchView: View {
                 .padding(.horizontal)
             }
             .padding(.vertical, 10)
+            
             ScrollView {
                 if filteredProducts.isEmpty {
                     VStack(spacing: 12) {
-                        Image(systemName: "magnifyingglass").font(.system(size: 40)).foregroundColor(.gray)
-                        Text(searchText.isEmpty ? "No items found in '\(selectedCategory)'" : "No items match '\(searchText)'").foregroundColor(.secondary)
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 40))
+                            .foregroundColor(.gray)
+                        Text(searchText.isEmpty ? "No items found in '\(selectedCategory)'" : "No items match '\(searchText)'")
+                            .foregroundColor(.secondary)
                     }
                     .padding(.top, 40)
                 } else {
                     VStack(spacing: 16) {
-                        ForEach(filteredProducts) { $product in
+                        ForEach(filteredProducts, id: \.id) { product in
                             HStack(spacing: 16) {
                                 Image(product.imageName)
                                     .resizable()
@@ -75,14 +82,21 @@ struct SearchView: View {
                                     .cornerRadius(8)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(product.name).font(.headline)
-                                    Text(product.price).font(.subheadline).foregroundColor(.deepEmerald).bold()
+                                    Text(product.name)
+                                        .font(.headline)
+                                    Text("₹\(product.price, specifier: "%.2f")")
+                                        .font(.subheadline)
+                                        .foregroundColor(.deepEmerald)
+                                        .bold()
+                                    
                                 }
                                 
                                 Spacer()
                                 
                                 Button(action: { withAnimation { shoppingCart.append(product) } }) {
-                                    Image(systemName: "plus.circle.fill").font(.title2).foregroundColor(.freshMint)
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.freshMint)
                                 }
                             }
                             .padding()
