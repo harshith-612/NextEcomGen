@@ -3,6 +3,7 @@ import CoreData
 final class LocalDatabaseManager {
     static let shared = LocalDatabaseManager()
     private init() {}
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Data")
         container.loadPersistentStores { _, error in
@@ -28,19 +29,26 @@ final class LocalDatabaseManager {
         UserDefaults.standard.removeObject(forKey: userKey)
         UserDefaults.standard.removeObject(forKey: roleKey)
         UserDefaults.standard.removeObject(forKey: "isLoggedIn")
-        UserDefaults.standard.synchronize()
+        self.cachedProducts = []
+        self.pendingTransactions = []
+        
         print("User database session cleared and synced successfully.")
     }
+    
     private func normalize(_ username: String) -> String {
         username.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
+    
     private let userKey = "current_user"
     private let roleKey = "current_role"
+    
     func setCurrentUser(_ username: String, role: UserRole) {
         let k = normalize(username)
         UserDefaults.standard.set(k, forKey: userKey)
         UserDefaults.standard.set(role.rawValue, forKey: roleKey)
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
     }
+    
     private var cachedProducts: [Product] = []
     func saveProducts(_ products: [Product]) {
         self.cachedProducts = products
@@ -74,7 +82,6 @@ final class LocalDatabaseManager {
     func savePendingTransactions(_ transactions: [AdminTransaction]) {
         pendingTransactions = transactions
     }
-
     
     func getCurrentUser() -> String? {
         UserDefaults.standard.string(forKey: userKey)
@@ -84,11 +91,10 @@ final class LocalDatabaseManager {
         let raw = UserDefaults.standard.string(forKey: roleKey) ?? "customer"
         return UserRole(rawValue: raw) ?? .customer
     }
-    
     func logout() {
-        UserDefaults.standard.removeObject(forKey: userKey)
-        UserDefaults.standard.removeObject(forKey: roleKey)
-    }    
+        clearCurrentUserSession()
+    }
+    
     func ensureUserExists(username: String) -> UserEntity {
         let cleanKey = normalize(username)
         if let existing = getUser(username: cleanKey) {
@@ -103,8 +109,11 @@ final class LocalDatabaseManager {
         saveContext()
         return user
     }
+    
     func getUser(username: String) -> UserEntity? {
         let cleanKey = normalize(username)
+        guard !cleanKey.isEmpty else { return nil }
+        
         let req: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
         req.predicate = NSPredicate(format: "username ==[c] %@", cleanKey)
         req.fetchLimit = 1
@@ -114,17 +123,19 @@ final class LocalDatabaseManager {
     
     func saveOrderHistory(_ orders: [OrderHistoryItem], for username: String) {
         let k = normalize(username)
+        guard !k.isEmpty else { return }
         let key = "orders_history_\(k)"
         if let encodedData = try? JSONEncoder().encode(orders) {
             UserDefaults.standard.set(encodedData, forKey: key)
-            UserDefaults.standard.synchronize()
             print("💾 SUCCESSFULLY SAVED \(orders.count) ORDERS PERSISTENTLY FOR: '\(k)'")
         } else {
-            print("❌Failed to encode order history model structures.")
+            print("❌ Failed to encode order history model structures.")
         }
     }
+    
     func getOrderHistory(for username: String) -> [OrderHistoryItem] {
         let k = normalize(username)
+        guard !k.isEmpty else { return [] }
         let key = "orders_history_\(k)"
         guard let rawData = UserDefaults.standard.data(forKey: key) else {
             print("ℹ No historical records found on disk for user account: '\(k)'")
@@ -137,6 +148,7 @@ final class LocalDatabaseManager {
         
         return []
     }
+    
     func saveNewUser(username: String, profileData: [String: String], role: UserRole) {
         let k = normalize(username)
         let user = ensureUserExists(username: k)
@@ -148,8 +160,10 @@ final class LocalDatabaseManager {
         
         saveContext()
     }
+    
     func getUserDetails(username: String) -> [String: String] {
         let k = normalize(username)
+        guard !k.isEmpty else { return [:] }
         let user = ensureUserExists(username: k)
         
         let emailValue = (user.email ?? "").isEmpty ? k : user.email!
@@ -164,6 +178,7 @@ final class LocalDatabaseManager {
     
     func updateUserProfile(name: String, email: String, for username: String) {
         let k = normalize(username)
+        guard !k.isEmpty else { return }
         let user = ensureUserExists(username: k)
         user.fullName = name
         user.email = email
@@ -172,6 +187,7 @@ final class LocalDatabaseManager {
     
     func saveCart(_ items: [Product], for username: String) {
         let k = normalize(username)
+        guard !k.isEmpty else { return }
         let user = ensureUserExists(username: k)
         if let existing = user.cartItems as? Set<CartItemEntity> {
             existing.forEach { context.delete($0) }
@@ -191,6 +207,7 @@ final class LocalDatabaseManager {
     
     func getCart(for username: String) -> [Product] {
         let k = normalize(username)
+        guard !k.isEmpty else { return [] }
         let user = ensureUserExists(username: k)
         guard let items = user.cartItems as? Set<CartItemEntity> else { return [] }
         return items.map {
@@ -200,6 +217,7 @@ final class LocalDatabaseManager {
     
     func clearCart(for username: String) {
         let k = normalize(username)
+        guard !k.isEmpty else { return }
         let user = ensureUserExists(username: k)
         if let items = user.cartItems as? Set<CartItemEntity> {
             items.forEach { context.delete($0) }
@@ -209,6 +227,8 @@ final class LocalDatabaseManager {
     
     func saveAddresses(_ addresses: [String], for username: String) {
         let k = normalize(username)
+        guard !k.isEmpty else { return }
+        
         let user = ensureUserExists(username: k)
         if let existing = user.addresses as? Set<AddressEntity> {
             existing.forEach { context.delete($0) }
@@ -221,16 +241,26 @@ final class LocalDatabaseManager {
         }
         saveContext()
     }
+
     
     func getAddresses(for username: String) -> [String] {
         let k = normalize(username)
+        guard !k.isEmpty else { return [] }
+        
         let user = ensureUserExists(username: k)
         guard let addresses = user.addresses as? Set<AddressEntity> else { return [] }
         return addresses.compactMap { $0.addressValue }
     }
+
     
     func restoreUserData(username: String) -> (cart: [Product], orders: [OrderHistoryItem], addresses: [String]) {
         let k = normalize(username)
-        return (cart: getCart(for: k), orders: getOrderHistory(for: k), addresses: getAddresses(for: k))
+        guard !k.isEmpty else { return (cart: [], orders: [], addresses: []) }
+        
+        return (
+            cart: getCart(for: k),
+            orders: getOrderHistory(for: k),
+            addresses: getAddresses(for: k)
+        )
     }
 }

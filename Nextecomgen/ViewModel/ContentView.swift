@@ -103,8 +103,8 @@ struct ContentView: View {
                 group.addTask {
                     var singlePairProducts: [Product] = []
                     
-                    let dummyJsonUrlString = "https://dummyjson.com/products/\(productId)"
                     let fakeStoreUrlString = "https://fakestoreapi.com/products/\(productId)"
+                    let dummyJsonUrlString = "https://dummyjson.com/products/\(productId)"
                     
                     guard let url1 = URL(string: dummyJsonUrlString),
                           let url2 = URL(string: fakeStoreUrlString) else { return [] }
