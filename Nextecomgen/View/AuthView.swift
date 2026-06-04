@@ -1,6 +1,5 @@
 import SwiftUI
 import Lottie
-
 struct AuthView: View {
     @FocusState private var focusedField: Field?
     @Binding var isShowingSignUpScreen: Bool
@@ -15,41 +14,35 @@ struct AuthView: View {
     private var isEmailValid: Bool {
         let email = emailInput.trimmingCharacters(in: .whitespacesAndNewlines)
         return email.contains("@") &&
-               email.contains(".") &&
-               email.count > 5
+        email.contains(".") &&
+        email.count > 5
     }
-
     private var isPasswordStrong: Bool {
         let password = passwordInput
-
+        
         let hasMinLength = password.count >= 8
         let hasLetter = password.rangeOfCharacter(from: .letters) != nil
         let hasNumber = password.rangeOfCharacter(from: .decimalDigits) != nil
-
+        
         return hasMinLength && hasLetter && hasNumber
     }
-
     private var isConfirmPasswordValid: Bool {
         guard isShowingSignUpScreen else { return true }
-
         return !confirmPasswordInput.isEmpty &&
-               confirmPasswordInput == passwordInput
+        confirmPasswordInput == passwordInput
     }
     private var isNameValid: Bool {
         guard isShowingSignUpScreen else { return true }
-
         return !fullNameInput.trimmingCharacters(in: .whitespaces).isEmpty
     }
     private var isFormValid: Bool {
-
         let emailOK = isEmailValid
         let passwordOK = isPasswordStrong
-
         if isShowingSignUpScreen {
             return isNameValid &&
-                   emailOK &&
-                   passwordOK &&
-                   isConfirmPasswordValid
+            emailOK &&
+            passwordOK &&
+            isConfirmPasswordValid
         } else {
             return emailOK && passwordOK
         }
@@ -152,14 +145,14 @@ struct AuthView: View {
                     .disabled(!isFormValid)
                     HStack {
                         Spacer()
-
+                        
                         Button {
                             withAnimation(.spring()) {
                                 isShowingSignUpScreen.toggle()
                                 errorMessage = ""
                             }
                             focusedField = isShowingSignUpScreen ? .fullName : .email
-
+                            
                         } label: {
                             Text(
                                 isShowingSignUpScreen
@@ -169,7 +162,7 @@ struct AuthView: View {
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(Color(hex: "024818"))
                         }
-
+                        
                         Spacer()
                     }
                 }
@@ -188,19 +181,19 @@ struct AuthView: View {
 }
 
 struct ModernTextField: View {
-
+    
     let icon: String
     let placeholder: String
-
+    
     @Binding var text: String
-
+    
     var body: some View {
-
+        
         HStack(spacing: 14) {
-
+            
             Image(systemName: icon)
                 .foregroundColor(.black)
-
+            
             TextField(placeholder, text: $text)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never).foregroundColor(.black)

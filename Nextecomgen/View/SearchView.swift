@@ -1,12 +1,10 @@
 import SwiftUI
-
 struct SearchView: View {
     @Binding var selectedTab: AppTab
     @Binding var searchText: String
     @Binding var storeProducts: [Product]
     @Binding var shoppingCart: [Product]
     @State private var selectedCategory: String = "All"
-    
     private var uniqueCategories: [String] {
         let rawCategories = storeProducts.map { $0.category.capitalized }
         let distinctSet = Set(rawCategories)
@@ -20,7 +18,6 @@ struct SearchView: View {
             return matchesSearchText && matchesCategory
         }
     }
-    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 10) {
@@ -38,7 +35,6 @@ struct SearchView: View {
             .padding()
             .cornerRadius(12)
             .padding([.horizontal, .top])
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(uniqueCategories, id: \.self) { category in
@@ -59,7 +55,6 @@ struct SearchView: View {
                 .padding(.horizontal)
             }
             .padding(.vertical, 10)
-            
             ScrollView {
                 if filteredProducts.isEmpty {
                     VStack(spacing: 12) {
@@ -92,7 +87,6 @@ struct SearchView: View {
                                 }
                                 
                                 Spacer()
-                                
                                 Button(action: { withAnimation { shoppingCart.append(product) } }) {
                                     Image(systemName: "plus.circle.fill")
                                         .font(.title2)

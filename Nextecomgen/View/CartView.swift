@@ -43,21 +43,16 @@ struct CartView: View {
                     Spacer()
                 }
                 .padding([.horizontal, .top])
-
                 if shoppingCart.isEmpty {
-
                     Spacer()
-
                     VStack(spacing: 12) {
                         Image(systemName: "bag.badge.questionmark")
                             .font(.system(size: 50))
                             .foregroundColor(.gray.opacity(0.6))
-
                         Text("Your cart is empty")
                             .font(.headline)
                             .foregroundColor(.secondary)
                     }
-
                     Spacer()
 
                 } else {
