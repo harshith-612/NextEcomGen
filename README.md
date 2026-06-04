@@ -64,21 +64,13 @@ NextEcomGen/
 └── Utils/           # Helper functions and utilities
 ```
 
-## 🔧 Configuration
-
-[Add any configuration steps needed, such as API keys, environment setup, etc.]
-
 ## 📚 Usage
 
-[Add usage examples and screenshots if available]
+It's an e-commerce application to buy a variety of products with many options for users
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the [LICENSE TYPE] License - see the [LICENSE](LICENSE) file for details.
 
 ## 👤 Author
 
