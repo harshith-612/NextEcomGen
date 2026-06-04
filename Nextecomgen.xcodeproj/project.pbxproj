@@ -204,16 +204,16 @@
 		D671E3622FBC5AE300BE4984 /* Nextecomgen */ = {
 			isa = PBXGroup;
 			children = (
+				D671E3632FBC5AE300BE4984 /* NextecomgenApp.swift */,
+				D642126B2FBC647C007EA3A9 /* Info.plist */,
+				D671E3672FBC5AE600BE4984 /* Assets.xcassets */,
 				D652C90F2FD149C2008D50B8 /* Resources */,
 				D652C90E2FD1498D008D50B8 /* Components */,
 				D652C90D2FD1488A008D50B8 /* Services */,
-				D671E3632FBC5AE300BE4984 /* NextecomgenApp.swift */,
-				D642126B2FBC647C007EA3A9 /* Info.plist */,
 				D652C90B2FD14832008D50B8 /* DesignSystem */,
 				D652C9072FD141FE008D50B8 /* View */,
 				D652C9092FD14289008D50B8 /* ViewModel */,
 				D652C9062FD14161008D50B8 /* Model */,
-				D671E3672FBC5AE600BE4984 /* Assets.xcassets */,
 				D671E3692FBC5AE600BE4984 /* Preview Content */,
 			);
 			path = Nextecomgen;

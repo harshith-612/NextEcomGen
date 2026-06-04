@@ -41,11 +41,7 @@ struct ProductDetailView: View {
                         Text("₹\(product.price, specifier: "%.2f")")
                             .font(.title.bold())
                             .foregroundColor(.freshMint)
-                        Text("""
-                        Premium ecommerce experience with \
-                        hero animations, glassmorphism UI, \
-                        smooth transitions and premium styling.
-                        """)
+                        Text(product.description)
                         .foregroundColor(.gray)
                         Button {
                             shoppingCart.append(product)

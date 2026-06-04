@@ -49,7 +49,7 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     headerView
                     searchBar
-                    ScrollView(.vertical, showsIndicators: false) {
+                    ScrollView(.vertical, showsIndicators: true) {
                         VStack(spacing: 24) {
                             categoryScrollView
                             if storeProducts.isEmpty {
