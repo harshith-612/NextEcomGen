@@ -21,7 +21,7 @@ NextEcomGen is a fully-featured e-commerce application designed to provide users
 - **Language**: Swift
 - **UI Framework**: SwiftUI
 - **Platform**: iOS
-- **Architecture**: [Add your architecture pattern - MVVM, MVC, etc.]
+- **Architecture**: MVVM.
 
 ## 📋 Requirements
 
