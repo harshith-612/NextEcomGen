@@ -75,7 +75,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 **hemaharshith-netizen**
 
-- GitHub: [@hemaharshith-netizen](https://github.com/hemaharshith-netizen)
+- GitHub: [@harshith-612](https://github.com/harshith-612)
 
 ## 📧 Contact
 
