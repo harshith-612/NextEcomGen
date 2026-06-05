@@ -107,8 +107,7 @@ struct ContentView: View {
                     let dummyJsonUrlString = "https://dummyjson.com/products/\(productId)"
                     
                     guard let url1 = URL(string: dummyJsonUrlString),
-                          let url2 = URL(string: fakeStoreUrlString) else { return [] }
-                    
+                    let url2 = URL(string: fakeStoreUrlString) else { return [] }
                     var request1 = URLRequest(url: url1)
                     request1.setValue("application/json", forHTTPHeaderField: "Accept")
                     var request2 = URLRequest(url: url2)
@@ -154,7 +153,6 @@ struct ContentView: View {
                 self.isLoading = false
                 print("🔓 LOCK RELEASED: isLoading is now false.")
             }
-            
             self.currentProductId = maxProductId + 1
             self.hasMoreData = false
             print("🏁 REACHED MAX: hasMoreData set to false.")

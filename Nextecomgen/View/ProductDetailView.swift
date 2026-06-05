@@ -93,7 +93,7 @@ struct ProductDetailView: View {
                                 .font(.title3.bold())
                                 .foregroundColor(.white)
                             if product.reviews.isEmpty {
-                                Text("No reviews available for this product.")
+                                Text("Be the first Person to review it.")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                                     .padding(.vertical, 5)
