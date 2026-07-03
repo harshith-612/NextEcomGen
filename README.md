@@ -35,7 +35,7 @@ NextEcomGen is a fully-featured e-commerce application designed to provide users
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/hemaharshith-netizen/NextEcomGen.git
+   git clone https://github.com/harshith-612/NextEcomGen.git
    ```
 
 2. Navigate to the project directory:
@@ -73,7 +73,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 👤 Author
 
-**hemaharshith-netizen**
+**harshith-612**
 
 - GitHub: [@harshith-612](https://github.com/harshith-612)
 
