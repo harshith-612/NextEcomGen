@@ -67,10 +67,6 @@ NextEcomGen/
 
 It's an e-commerce application to buy a variety of products with many options for users
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## 👤 Author
 
 **harshith-612**
