@@ -18,16 +18,33 @@ struct Order: Codable, Identifiable {
     let totalAmount: Double
     let items: [OrderItem]
 }
-enum OrderStatus: String {
-    case pending
-    case placed
-    case preparing
-    case outForDelivery
-    case delivered
+enum OrderStatus: String, Codable {
+    case placed = "placed"
+    case preparing = "preparing"
+    case outForDelivery = "out_for_delivery"
+    case delivered = "delivered"
 }
+
 func mapStatus(_ status: String) -> OrderStatus {
-    return OrderStatus(rawValue: status.lowercased()) ?? .pending
+    switch status.lowercased() {
+    case "placed":
+        return .placed
+
+    case "preparing":
+        return .preparing
+
+    case "out_for_delivery",
+         "outfordelivery":
+        return .outForDelivery
+
+    case "delivered":
+        return .delivered
+
+    default:
+        return .placed
+    }
 }
+
 final class OrderService {
     static let shared = OrderService()
     private init() {}
@@ -117,7 +134,7 @@ struct OrderHistoryView: View {
             
         }
         .task {
-            await loadOrders()
+                await loadOrders()
         }
     }
     
@@ -149,7 +166,6 @@ struct OrderHistoryView: View {
     
     private func statusColor(_ status: OrderStatus) -> Color {
         switch status {
-        case .pending: return .gray
         case .placed: return .blue
         case .preparing: return .orange
         case .outForDelivery: return .purple
@@ -159,7 +175,6 @@ struct OrderHistoryView: View {
     
     private func statusIcon(_ status: OrderStatus) -> String {
         switch status {
-        case .pending: return "clock"
         case .placed: return "cart.badge.plus"
         case .preparing: return "fork.knife"
         case .outForDelivery: return "bicycle"

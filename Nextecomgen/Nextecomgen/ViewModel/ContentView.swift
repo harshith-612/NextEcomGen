@@ -56,8 +56,6 @@ struct ContentView: View {
     }
     func resetUserSession() {
         isAddressFieldFocused = false
-        if let user = LocalDatabaseManager.shared.getCurrentUser() {
-        }
         LocalDatabaseManager.shared.logout()
         DispatchQueue.main.async {
             self.isUserLoggedIn = false
@@ -86,13 +84,18 @@ struct ContentView: View {
             isLoading = true
             return true
         }) else { return }
+
+        defer {
+            Task { @MainActor in
+                isLoading = false
+            }
+        }
         if currentPage < 1 { currentPage = 1 }
         let startId = ((currentPage - 1) * pageSize) + 1
         let endId = min(startId + pageSize - 1, maxProducts)
         guard startId > 0 && startId <= endId else {
             await MainActor.run {
                 hasMoreData = false
-                isLoading = false
             }
             return
         }
@@ -115,28 +118,33 @@ struct ContentView: View {
             return collected
         }
         let sortedBatch = batchResults.sorted(by: { $0.id < $1.id })
-        
+
         await MainActor.run {
-            var currentIds = Set(self.storeProducts.map { $0.id })
-            var uniqueNewProducts: [Product] = []
-            
-            for product in sortedBatch {
-                if !currentIds.contains(product.id) {
-                    currentIds.insert(product.id)
-                    uniqueNewProducts.append(product)
-                }
+
+            defer {
+                self.isLoading = false
             }
-            self.storeProducts.append(contentsOf: uniqueNewProducts)
+
+            if sortedBatch.count != idsToFetch.count {
+                print("Page \(currentPage) failed. Will retry after reconnect.")
+                return
+            }
+
+            var currentIds = Set(self.storeProducts.map(\.id))
+
+            let uniqueProducts = sortedBatch.filter {
+                currentIds.insert($0.id).inserted
+            }
+
+            self.storeProducts.append(contentsOf: uniqueProducts)
+
             LocalDatabaseManager.shared.saveProducts(self.storeProducts)
+
             self.currentPage += 1
-            self.isLoading = false
-            
+
             if endId >= maxProducts {
                 self.hasMoreData = false
-                self.currentProductId = maxProducts + 1
             }
-            
-            print("Page \(currentPage - 1) loaded successfully. Global Total:", self.storeProducts.count)
         }
     }
     private func fetchSingleProduct(id: Int) async -> Product? {
@@ -182,9 +190,7 @@ struct ContentView: View {
                                     isLoading: $isLoading,
                                     hasMoreData: $hasMoreData,
                                     onFetchNextBatch: {
-                                        Task {
-                                            await self.fetchRemoteProducts()
-                                        }
+                                        await fetchRemoteProducts()
                                     }
                                 )
                                 .tag(AppTab.home)

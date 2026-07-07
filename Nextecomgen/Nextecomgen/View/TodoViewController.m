@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Todo List";
+    self.title = @"Tasks List";
     self.view.backgroundColor =
     UIColor.systemBackgroundColor;
     
@@ -151,12 +151,10 @@ numberOfRowsInSection:(NSInteger)section {
     if(item.completed) {
         
         
-        cell.accessoryType =
-        UITableViewCellAccessoryCheckmark;
-        
-        
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.tintColor = [UIColor greenColor];
         cell.textLabel.textColor =
-        UIColor.systemGrayColor;
+        UIColor.greenColor;
         
         
     }

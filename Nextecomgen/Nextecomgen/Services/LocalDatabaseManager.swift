@@ -59,7 +59,7 @@ final class LocalDatabaseManager {
     private var cachedProducts: [Product] = []
     
     func saveProducts(_ products: [Product]) {
-        guard let context = context else { return }
+        guard context != nil else { return }
         
         
         saveContext()
@@ -97,8 +97,4 @@ final class LocalDatabaseManager {
     func logout() {
         clearCurrentUserSession()
     }
-  
-
-    
-
 }

@@ -11,12 +11,14 @@ struct HomeView: View {
     @State private var selectedCategory = "All"
     @State private var showCheckout = false
     @State private var manuallyPaused = false
-    @State private var viewModel = ContentView()
     @EnvironmentObject var network: NetworkMonitor
-    @State private var hasBeenOffline = false
     @State var cartItems: [CartItem] = []
     @State var cartTotal: Double = 0.0
+    @State private var hasBeenOffline = false
     @State private var bannerState: NetworkBannerState = .none
+    @State private var bannerTask: Task<Void, Never>?
+    @State private var isFirstNetworkCheck = true
+    @State private var previousNetworkState: Bool?
     var onFetchNextBatch: () async -> Void
     var filteredProducts: [Product] {
         let search = searchText
@@ -43,48 +45,62 @@ struct HomeView: View {
         return ["All"] + unique
     }
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack(spacing: 0) {
+        ZStack {
+            VStack(spacing: 0) {
+                Group {
                     if bannerState == .offline {
-                        bannerView(icon: "wifi.slash",
-                                   text: "No Internet Connection",
-                                   color: .red)
-                    } else if bannerState == .reconnected {
-                        bannerView(icon: "wifi",
-                                   text: "Reconnected",
-                                   color: .green)
+                        bannerView(
+                            icon: "wifi.slash",
+                            text: "No Internet Connection",
+                            color: .red
+                        )
                     }
-                    
-                    headerView
-                    searchBar
-                    
-                    ScrollView {
-                        LazyVStack(spacing: 24) {
-                            categoryScrollView
-                            
-                            if storeProducts.isEmpty {
-                                skeletonSection
-                            } else {
-                                productsSection
-                            }
-                            
-                            if !storeProducts.isEmpty && hasMoreData && searchText.isEmpty {
-                                SkeletonLoader()
-                                    .padding()
-                                    .onAppear {
-                                        Task { await onFetchNextBatch() }
-                                    }
-                            }
+                    else if bannerState == .reconnected {
+                        bannerView(
+                            icon: "wifi",
+                            text: "Reconnected",
+                            color: .green
+                        )
+                    }
+                }
+                .animation(.easeInOut, value: bannerState)
+                
+                headerView
+                searchBar
+                
+                ScrollView {
+                    LazyVStack(spacing: 24) {
+                        categoryScrollView
+                        
+                        if storeProducts.isEmpty {
+                            skeletonSection
+                        } else {
+                            productsSection
                         }
-                        .padding(.bottom, 120)
+                        
+                        if !storeProducts.isEmpty && hasMoreData && searchText.isEmpty {
+                            SkeletonLoader()
+                                .padding()
+                                .onAppear {
+                                    Task {
+                                        guard network.isConnected else {
+                                            print("Skip fetch - offline")
+                                            return
+                                        }
+                                        
+                                        await onFetchNextBatch()
+                                    }
+                                }
+                        }
                     }
+                    .padding(.bottom, 120)
                 }
             }
             .task {
-                for await value in network.$isConnected.values {
+                previousNetworkState = network.isConnected
+                for await connected in network.$isConnected.values {
                     await MainActor.run {
-                        handleNetworkChange(value)
+                        handleNetworkChange(connected)
                     }
                 }
             }
@@ -93,38 +109,85 @@ struct HomeView: View {
                     await onFetchNextBatch()
                 }
             }
+            .onDisappear {
+                bannerTask?.cancel()
+            }
         }
     }
     @MainActor
     private func handleNetworkChange(_ connected: Bool) {
-        print("NETWORK CHANGED:", connected)
         
-        if connected {
-            guard hasBeenOffline else { return }
+        print("NETWORK CHANGE:", connected)
+        if isFirstNetworkCheck {
             
-            hasBeenOffline = false
+            isFirstNetworkCheck = false
             
-            withAnimation {
-                bannerState = .reconnected
-            }
+            hasBeenOffline = !connected
             
-            Task {
-                await onFetchNextBatch()
-                
-                try? await Task.sleep(for: .seconds(2))
-                
-                await MainActor.run {
-                    withAnimation {
-                        bannerState = .none
-                    }
-                }
-            }
+            print(
+                "INITIAL NETWORK:",
+                connected
+            )
             
-        } else {
+            return
+        }
+        
+        
+        
+        if !connected {
+            
+            print("OFFLINE")
+            
             hasBeenOffline = true
             
-            withAnimation {
+            bannerTask?.cancel()
+            
+            withAnimation(.spring()) {
+                
                 bannerState = .offline
+                
+            }
+            
+            return
+        }
+        guard hasBeenOffline else {
+            
+            print(
+                "Already online - no banner"
+            )
+            
+            return
+        }
+        
+        
+        
+        print(
+            "INTERNET RESTORED"
+        )
+        
+        
+        hasBeenOffline = false
+        
+        
+        withAnimation(.spring()) {
+            
+            bannerState = .reconnected
+            
+        }
+        
+        
+        
+        bannerTask?.cancel()
+        
+        
+        bannerTask = Task {
+            try? await Task.sleep(
+                for: .seconds(3)
+            )
+            await MainActor.run {
+                withAnimation(.spring()) {
+                    bannerState = .none
+                }
             }
         }
     }
@@ -141,7 +204,15 @@ private func bannerView(icon: String, text: String, color: Color) -> some View {
     .padding()
     .background(color)
     .foregroundColor(Color(.systemBackground))
-    .transition(.move(edge: .top).combined(with: .opacity))
+    .transition(
+        .asymmetric(
+            insertion: .move(edge: .top)
+                .combined(with: .opacity),
+            removal: .move(edge: .top)
+                .combined(with: .opacity)
+        )
+    )
+    .animation(.spring(), value: text)
 }
 extension HomeView {
     private var headerView: some View {

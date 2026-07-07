@@ -33,7 +33,6 @@ struct ProfileView: View {
     private var token: String {
         LocalDatabaseManager.shared.getAuthToken() ?? ""
     }
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -54,7 +53,6 @@ struct ProfileView: View {
                                 Button {
 
                                     let vc = TodoViewController()
-
                                     if let scene =
                                         UIApplication.shared.connectedScenes.first as? UIWindowScene,
                                        let window =
