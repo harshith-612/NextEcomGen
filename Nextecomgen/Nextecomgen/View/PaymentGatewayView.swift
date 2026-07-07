@@ -262,7 +262,6 @@ struct PaymentGatewayView: View {
     }
     
     private func handleSuccessRedirection() {
-        LocalDatabaseManager.shared.clearCart(for: currentUsername)
         
         shoppingCart.removeAll()
         isPaymentVerified = true

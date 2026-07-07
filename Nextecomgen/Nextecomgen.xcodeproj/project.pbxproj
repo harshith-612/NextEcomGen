@@ -12,6 +12,8 @@
 		D6231DEA2FC6B15D0080D8BE /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6231DE92FC6B15D0080D8BE /* ProductDetailView.swift */; };
 		D6231DEC2FC6B1920080D8BE /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6231DEB2FC6B1920080D8BE /* CheckoutView.swift */; };
 		D6231DEE2FC6B1E60080D8BE /* SkeletonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6231DED2FC6B1E60080D8BE /* SkeletonLoader.swift */; };
+		D63628FC2FFCD53000410DB3 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D63628FB2FFCD53000410DB3 /* TodoItem.m */; };
+		D63628FF2FFCD56800410DB3 /* TodoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D63628FE2FFCD56800410DB3 /* TodoViewController.m */; };
 		D64212632FBC6048007EA3A9 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3972FBC5BF800BE4984 /* CartView.swift */; };
 		D64212642FBC6052007EA3A9 /* PaymentGatewayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E39F2FBC5CB000BE4984 /* PaymentGatewayView.swift */; };
 		D64212652FBC6059007EA3A9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E39B2FBC5C4A00BE4984 /* AuthView.swift */; };
@@ -19,13 +21,6 @@
 		D64212672FBC605F007EA3A9 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3A12FBC5CE200BE4984 /* CustomTabBar.swift */; };
 		D64212682FBC6061007EA3A9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3992FBC5C2500BE4984 /* ProfileView.swift */; };
 		D645C7112FD15ECA003BF498 /* boy_hide.json in Resources */ = {isa = PBXBuildFile; fileRef = D652C9082FD14278008D50B8 /* boy_hide.json */; };
-		D653CCBE2FE16AEE00773EEC /* CartEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCB82FE16AEE00773EEC /* CartEntity.swift */; };
-		D653CCBF2FE16AEE00773EEC /* CartItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCB92FE16AEE00773EEC /* CartItemEntity.swift */; };
-		D653CCC02FE16AEE00773EEC /* OrderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCBA2FE16AEE00773EEC /* OrderEntity.swift */; };
-		D653CCC12FE16AEE00773EEC /* OrderItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCBB2FE16AEE00773EEC /* OrderItemEntity.swift */; };
-		D653CCC22FE16AEE00773EEC /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCBD2FE16AEE00773EEC /* UserEntity.swift */; };
-		D653CCC32FE16AEE00773EEC /* ProductEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCBC2FE16AEE00773EEC /* ProductEntity.swift */; };
-		D653CCC42FE16AEE00773EEC /* AddressEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D653CCB72FE16AEE00773EEC /* AddressEntity.swift */; };
 		D671E3642FBC5AE300BE4984 /* NextecomgenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671E3632FBC5AE300BE4984 /* NextecomgenApp.swift */; };
 		D671E3682FBC5AE600BE4984 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D671E3672FBC5AE600BE4984 /* Assets.xcassets */; };
 		D671E36B2FBC5AE600BE4984 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D671E36A2FBC5AE600BE4984 /* Preview Assets.xcassets */; };
@@ -72,15 +67,13 @@
 		D6231DE92FC6B15D0080D8BE /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		D6231DEB2FC6B1920080D8BE /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 		D6231DED2FC6B1E60080D8BE /* SkeletonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoader.swift; sourceTree = "<group>"; };
+		D63628F92FFCD50600410DB3 /* TodoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoItem.h; sourceTree = "<group>"; };
+		D63628FA2FFCD53000410DB3 /* Nextecomgen-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Nextecomgen-Bridging-Header.h"; sourceTree = "<group>"; };
+		D63628FB2FFCD53000410DB3 /* TodoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoItem.m; sourceTree = "<group>"; };
+		D63628FD2FFCD54E00410DB3 /* TodoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoViewController.h; sourceTree = "<group>"; };
+		D63628FE2FFCD56800410DB3 /* TodoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoViewController.m; sourceTree = "<group>"; };
 		D642126B2FBC647C007EA3A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D652C9082FD14278008D50B8 /* boy_hide.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = boy_hide.json; sourceTree = "<group>"; };
-		D653CCB72FE16AEE00773EEC /* AddressEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntity.swift; sourceTree = "<group>"; };
-		D653CCB82FE16AEE00773EEC /* CartEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartEntity.swift; sourceTree = "<group>"; };
-		D653CCB92FE16AEE00773EEC /* CartItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemEntity.swift; sourceTree = "<group>"; };
-		D653CCBA2FE16AEE00773EEC /* OrderEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEntity.swift; sourceTree = "<group>"; };
-		D653CCBB2FE16AEE00773EEC /* OrderItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemEntity.swift; sourceTree = "<group>"; };
-		D653CCBC2FE16AEE00773EEC /* ProductEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEntity.swift; sourceTree = "<group>"; };
-		D653CCBD2FE16AEE00773EEC /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		D671E3602FBC5AE300BE4984 /* Nextecomgen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nextecomgen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D671E3632FBC5AE300BE4984 /* NextecomgenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextecomgenApp.swift; sourceTree = "<group>"; };
 		D671E3672FBC5AE600BE4984 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -158,6 +151,10 @@
 				D671E39B2FBC5C4A00BE4984 /* AuthView.swift */,
 				D671E39D2FBC5C8300BE4984 /* AdminSheetView.swift */,
 				D671E3992FBC5C2500BE4984 /* ProfileView.swift */,
+				D63628F92FFCD50600410DB3 /* TodoItem.h */,
+				D63628FB2FFCD53000410DB3 /* TodoItem.m */,
+				D63628FD2FFCD54E00410DB3 /* TodoViewController.h */,
+				D63628FE2FFCD56800410DB3 /* TodoViewController.m */,
 				D6941D4D2FF232D600C9BB22 /* Main.storyboard */,
 				D6941D4F2FF2345C00C9BB22 /* ThemeViewController.swift */,
 				D6941D512FF2418A00C9BB22 /* SceneDelegate.swift */,
@@ -166,6 +163,7 @@
 				D671E39F2FBC5CB000BE4984 /* PaymentGatewayView.swift */,
 				D6231DEB2FC6B1920080D8BE /* CheckoutView.swift */,
 				D6231DE92FC6B15D0080D8BE /* ProductDetailView.swift */,
+				D63628FA2FFCD53000410DB3 /* Nextecomgen-Bridging-Header.h */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,13 +216,6 @@
 		D671E3572FBC5AE300BE4984 = {
 			isa = PBXGroup;
 			children = (
-				D653CCB72FE16AEE00773EEC /* AddressEntity.swift */,
-				D653CCB82FE16AEE00773EEC /* CartEntity.swift */,
-				D653CCB92FE16AEE00773EEC /* CartItemEntity.swift */,
-				D653CCBA2FE16AEE00773EEC /* OrderEntity.swift */,
-				D653CCBB2FE16AEE00773EEC /* OrderItemEntity.swift */,
-				D653CCBC2FE16AEE00773EEC /* ProductEntity.swift */,
-				D653CCBD2FE16AEE00773EEC /* UserEntity.swift */,
 				D671E3622FBC5AE300BE4984 /* Nextecomgen */,
 				D671E3732FBC5AE600BE4984 /* NextecomgenTests */,
 				D671E37D2FBC5AE600BE4984 /* NextecomgenUITests */,
@@ -357,6 +348,7 @@
 				TargetAttributes = {
 					D671E35F2FBC5AE300BE4984 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 2650;
 					};
 					D671E36F2FBC5AE600BE4984 = {
 						CreatedOnToolsVersion = 14.2;
@@ -427,16 +419,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D653CCBE2FE16AEE00773EEC /* CartEntity.swift in Sources */,
-				D653CCBF2FE16AEE00773EEC /* CartItemEntity.swift in Sources */,
 				D6941D502FF2345C00C9BB22 /* ThemeViewController.swift in Sources */,
-				D653CCC02FE16AEE00773EEC /* OrderEntity.swift in Sources */,
-				D653CCC12FE16AEE00773EEC /* OrderItemEntity.swift in Sources */,
-				D653CCC22FE16AEE00773EEC /* UserEntity.swift in Sources */,
-				D653CCC32FE16AEE00773EEC /* ProductEntity.swift in Sources */,
-				D653CCC42FE16AEE00773EEC /* AddressEntity.swift in Sources */,
 				D68E3E472FCD896F0007F73C /* LocalDatabaseManager.swift in Sources */,
 				D671E38E2FBC5B0D00BE4984 /* Models.swift in Sources */,
+				D63628FF2FFCD56800410DB3 /* TodoViewController.m in Sources */,
 				D64212682FBC6061007EA3A9 /* ProfileView.swift in Sources */,
 				D6231DEA2FC6B15D0080D8BE /* ProductDetailView.swift in Sources */,
 				D6941D522FF2418A00C9BB22 /* SceneDelegate.swift in Sources */,
@@ -444,6 +430,7 @@
 				D671E3962FBC5BD500BE4984 /* SearchView.swift in Sources */,
 				D687973B2FDAC80A0027660A /* NetworkMonitor.swift in Sources */,
 				D64212672FBC605F007EA3A9 /* CustomTabBar.swift in Sources */,
+				D63628FC2FFCD53000410DB3 /* TodoItem.m in Sources */,
 				D6941D562FF2429900C9BB22 /* ThemeManager.swift in Sources */,
 				D6231DE82FC6B13C0080D8BE /* ProductCard.swift in Sources */,
 				D6231DEC2FC6B1920080D8BE /* CheckoutView.swift in Sources */,
@@ -616,6 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Nextecomgen/Preview Content\"";
@@ -636,6 +624,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Apple.Nextecomgen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Nextecomgen/View/Nextecomgen-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -646,6 +636,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -669,6 +660,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Nextecomgen/View/Nextecomgen-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

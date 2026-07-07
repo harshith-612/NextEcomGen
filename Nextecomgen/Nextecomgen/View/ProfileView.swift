@@ -51,6 +51,43 @@ struct ProfileView: View {
                                 Text("Account Dashboard")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
+                                Button {
+
+                                    let vc = TodoViewController()
+
+                                    if let scene =
+                                        UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                       let window =
+                                        scene.windows.first,
+                                       let root =
+                                        window.rootViewController {
+
+
+                                        var top = root
+
+                                        while let presented = top.presentedViewController {
+                                            top = presented
+                                        }
+
+
+                                        let nav =
+                                        UINavigationController(rootViewController: vc)
+
+                                        nav.modalPresentationStyle = .fullScreen
+
+                                        top.present(nav, animated:true)
+                                    }
+
+
+                                } label: {
+
+                                    Image(systemName:"checklist")
+                                        .font(.system(size:20))
+                                        .padding(10)
+                                        .background(Color.gray.opacity(0.15))
+                                        .clipShape(Circle())
+
+                                }
                             }
 
                             Spacer()
@@ -121,11 +158,6 @@ struct ProfileView: View {
     private func loadUserProfile() {
         let username = resolvedUsername()
         guard !username.isEmpty else { return }
-        
-        let profile = LocalDatabaseManager.shared.getUserDetails(username: username)
-        
-        loggedInFullName = profile["fullName"] ?? "User Account"
-        loggedInEmail = profile["email"] ?? username
         
         tempFullName = loggedInFullName
         tempEmail = loggedInEmail

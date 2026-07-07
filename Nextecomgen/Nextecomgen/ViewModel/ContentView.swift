@@ -57,7 +57,6 @@ struct ContentView: View {
     func resetUserSession() {
         isAddressFieldFocused = false
         if let user = LocalDatabaseManager.shared.getCurrentUser() {
-            LocalDatabaseManager.shared.clearCart(for: user)
         }
         LocalDatabaseManager.shared.logout()
         DispatchQueue.main.async {
@@ -239,7 +238,6 @@ struct ContentView: View {
                                 guard isInitialLoadComplete else { return }
                                 guard let user = LocalDatabaseManager.shared.getCurrentUser(),
                                       !user.isEmpty else { return }
-                                LocalDatabaseManager.shared.saveCart(newValue, for: user)
                             }
                             .padding(.bottom, 60)
                             CustomTabBar(
@@ -386,15 +384,9 @@ struct ContentView: View {
                                     LocalDatabaseManager.shared.setAuthToken(token)
                                     LocalDatabaseManager.shared.setCurrentUser(cleanEmail, role: .customer)
                                     
-                                    let userData = LocalDatabaseManager.shared.getUserDetails(username: cleanEmail)
-                                    let userName = userData["fullName"] ?? "User"
-                                    
                                     DispatchQueue.main.async {
                                         alertTitle = "Login Successful"
-                                        alertMessage = "Welcome back, \(userName)!"
                                         showAlert = true
-                                        
-                                        loggedInFullName = userName
                                         loggedInEmail = cleanEmail
                                         isUserLoggedIn = true
                                         selectedTab = .home
@@ -441,8 +433,6 @@ struct ContentView: View {
     private func restoreCartOnLaunch() {
         guard let user = LocalDatabaseManager.shared.getCurrentUser(),
               !user.isEmpty else { return }
-        let saved = LocalDatabaseManager.shared.getCart(for: user)
-        shoppingCart = saved
     }
     private func cleanErrorMessage(_ data: Data) -> String {
         return parseErrorMessage(data)
